@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<title>PUBG UC Premium Store</title>
+<style>
+  :root{
+    --primary-navy: #0B3A66;    /* رئيسي للعناوين والـ header */
+    --accent-blue:  #0077CC;    /* أزرار وـ CTA */
+    --accent-2:     #00A3FF;    /* تدرج ثانوي */
+    --bg-top:       #F6FAFF;    /* خلفية فاتحة */
+    --bg-bottom:    #EAF4FF;    /* خلفية سفلية */
+    --card-bg:      #FFFFFF;
+    --text-dark:    #07273F;
+    --muted:        #6B7A90;
+    --success:      #0AA65A;
+    --error:        #E34A4A;
+    --featured:     #FFB84D;
+  }
+
+  html, body {
+    touch-action: manipulation;
+    overscroll-behavior: none;
+  }
+
+  /* كل الأكواد الأصلية بدون حذف */
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+    color: var(--text-dark);
+    direction: rtl;
+    text-align: right;
+  }
+  header {
+    background-color: var(--primary-navy);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 6px rgba(11,58,102,0.12);
+  }
+  .logo {
+    height: 35px;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 26px;
+    margin: 30px 0 10px;
+    color: var(--text-dark);
+  }
+  .packages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  .package-card {
+    background: var(--card-bg);
+    color: var(--text-dark);
+    border-radius: 16px;
+    padding: 15px 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(11,58,102,0.06);
+    transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .package-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(11,58,102,0.10);
+  }
+  .package-card img {
+    width: 95%;
+    height: 80px;
+    object-fit: contain;
+  }
+  .quantity {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .price {
+    font-size: 16px;
+    color: var(--accent-blue);
+    font-weight: bold;
+  }
+  .old-price {
+    text-decoration: line-through;
+    color: var(--muted);
+    font-size: 14px;
+    display: block;
+    margin-top: 4px;
+  }
+  .game-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  .game-image {
+    width: 80px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(11,58,102,0.12);
+  }
+  .game-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .verified-box {
+    background: rgba(0,119,204,0.08);
+    padding: 3px 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    display: inline-flex;
+    align-items: center;
+    gap: 0px;
+    font-size: 16px;
+    margin-top: 4px;
+    color: var(--text-dark);
+  }
+  .verified-icon {
+    width: 18px;
+    height: 18px;
+  }
+  @media (max-width: 600px) {
+    .packages {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .form-block {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 12px;
+    margin: 20px auto;
+    max-width: 300px;
+    box-shadow: 0 12px 30px rgba(11,58,102,0.04);
+  }
+  .step-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    justify-content: flex-end;
+  }
+  .step-index-container {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .step {
+    background: var(--accent-blue);
+    padding: 4px 10px;
+    border-radius: 50%;
+    font-weight: bold;
+    color: white;
+  }
+  .title {
+    font-size: 18px;
+  }
+  .uid-tips-container {
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+  }
+  .question-icon {
+    background: var(--accent-blue);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .tooltip {
+    display: none;
+    position: absolute;
+    background: rgb(28 31 35);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    width: 250px;
+    top: 25px;
+    right: -125px;
+    z-index: 10;
+  }
+  .uid-tips-container:hover .tooltip {
+    display: block;
+  }
+  .tooltip img {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 6px;
+  }
+  .form-config-input input {
+    width: 92%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--accent-blue);
+    text-align: right;
+  }
+  .input-help { font-size:13px; color:var(--muted); margin-top:8px; text-align:right }
+  .input-error { color:var(--error); font-weight:700; margin-top:8px; display:none; text-align:right }
+
+  .check-button-block-container {
+    margin-top: 10px;
+    text-align: left;
+  }
+  .check-button {
+    padding: 8px 16px;
+    background: var(--accent-blue);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+  }
+  .check-button:hover {
+    background: #005f9b;
+  }
+  .package-card.selected {
+    border: 3px solid var(--accent-blue);
+    box-shadow: 0 0 20px rgba(0,163,255,0.10);
+    transform: scale(1.05);
+  }
+
+  /* شارة تم اختيار الباقة */
+  .chosen-badge {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background: rgba(10,166,90,0.08);
+    color: var(--success);
+    padding: 6px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(10,138,58,0.06);
+  }
+
+  /* علامة صح دائرية عند التحديد */
+  .package-card.selected::after {
+    content: '\2713';
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    background: var(--accent-blue);
+    color:#fff;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    box-shadow:0 6px 18px rgba(0,123,255,0.12);
+    animation: pop .38s ease;
+  }
+  @keyframes pop { from { transform: scale(.6) translateY(6px); opacity:0 } to { transform: scale(1) translateY(0); opacity:1 } }
+
+  .bottom-button {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 420px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-2));
+    color: #fff;
+    font-size: 19px;
+    text-align: center;
+    padding: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0,163,255,0.18);
+    z-index: 1000;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    pointer-events: none;
+    opacity: .5;
+  }
+  .bottom-button.enabled {
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  .bottom-button:hover {
+    transform: translateX(-50%) scale(1.03);
+    box-shadow: 0 16px 40px rgba(0,163,255,0.26);
+  }
+
+  .bottom-button:active {
+    transform: translateX(-50%) scale(0.97);
+  }
+
+  footer {
+    background: var(--primary-navy);
+    padding: 30px 20px;
+    margin-top: 60px;
+    text-align: center;
+    color: #fff;
+  }
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    max-width: 900px;
+    margin: auto;
+  }
+  .footer-section h3 {
+    color: var(--accent-2);
+    margin-bottom: 10px;
+  }
+  .footer-section a {
+    color: #e6e6e6;
+    text-decoration: none;
+    display: block;
+    margin: 6px 0;
+    transition: color 0.3s;
+  }
+  .footer-section a:hover {
+    color: var(--accent-2);
+  }
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  .social-icons img {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s;
+  }
+  .social-icons img:hover {
+    transform: scale(1.1);
+  }
+  .footer-bottom {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #cce0ff;
+  }
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: 50%;
+    transform: translateX(50%);
+    background: rgba(0,119,204,0.95);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, top 0.4s ease;
+  }
+  .notification.show {
+    opacity: 1;
+    pointer-events: all;
+    top: 40px;
+  }
+  .notification.error {
+    background: var(--error);
+  }
+  .notification.success {
+    background: var(--success);
+  }
+  @media (max-width: 600px) {
+    .notification {
+      font-size: 13px;
+      padding: 8px 14px;
+      width: 65%;
+    }
+  }
+
+  .faq-ultra {
+    max-width: 900px;
+    margin: 50px auto 80px;
+    padding: 0 15px;
+  }
+
+  .faq-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: stretch;
+  }
+
+  .faq-line {
+    width: 5px;
+    background: #e6f3ff;
+    border-radius: 10px;
+    transition: background 0.4s;
+  }
+
+  .faq-row.active .faq-line {
+    background: var(--accent-blue);
+  }
+
+  .faq-content {
+    flex: 1;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px 25px;
+    box-shadow: 0 10px 30px rgba(11,58,102,0.06);
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .faq-content:hover {
+    transform: translateY(-4px);
+  }
+
+  .faq-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--text-dark);
+  }
+
+  .faq-head i {
+    font-style: normal;
+    background: var(--accent-blue);
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .faq-body {
+    margin-top: 0;
+    font-size: 16px;
+    color: var(--text-dark);
+    line-height: 1.8;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, margin-top 0.5s ease;
+  }
+
+  .faq-row.active .faq-body {
+    max-height: 200px;
+    margin-top: 15px;
+  }
+
+  @media (max-width:600px){
+    .faq-head{font-size:16px}
+    .faq-body{font-size:14px}
+  }
+
+  /* ===== باكج مميز ===== */
+  .package-card.featured {
+    position: relative;
+    border: 2px solid rgba(255,184,77,0.18);
+    box-shadow: 0 0 20px rgba(255, 184, 77, 0.10),
+                0 0 40px rgba(11,58,102,0.03);
+    transform: scale(1.07);
+    z-index: 5;
+  }
+
+  /* حركة خفيفة */
+  .package-card.featured:hover {
+    transform: scale(1.1);
+  }
+
+  /* شارة العرض */
+  .package-card.featured::before {
+    content: "عرض مميز";
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    background: var(--featured);
+    color: #122020;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  }
+
+  /* وميض خفيف */
+  @keyframes glow {
+    0% { box-shadow: 0 0 15px rgba(255, 184, 77, 0.45); }
+    100% { box-shadow: 0 0 30px rgba(255, 184, 77, 0.78); }
+  }
+
+  .package-card.featured { animation: glow 1.6s infinite alternate; }
+
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(12,12,12,0.44); display: none; align-items:center; justify-content:center; z-index:2200 }
+  .modal { background:#fff; border-radius:12px; padding:20px; width: 85%; max-width:420px; box-shadow:0 18px 50px rgba(0,0,0,0.28); }
+  .modal h3 { margin:0 0 12px; color:var(--text-dark) }
+  .modal .row { display:flex; justify-content:space-between; margin:8px 0; font-weight:700 }
+  .modal .actions { display:flex; gap:10px; margin-top:16px; justify-content:flex-end }
+  .btn { padding:10px 14px; border-radius:10px; cursor:pointer; border:none }
+  .btn.secondary { background:#f1f5f9 }
+  .btn.primary { background: linear-gradient(135deg,var(--accent-blue),var(--accent-2)); color:#fff }
+
+
+/* ===== Ultra Professional Input ===== */
+
+.ultra-input-box{
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg,#ffffff,#f1f8ff);
+  border-radius: 18px;
+  padding: 6px;
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,0.04),
+    0 10px 25px rgba(11,58,102,0.06);
+  transition: all .35s ease;
+  border: 2px solid transparent;
+}
+
+/* عند الفوكس */
+.ultra-input-box:focus-within{
+  border: 2px solid var(--accent-blue);
+  box-shadow:
+    0 0 0 6px rgba(0,163,255,.08),
+    0 15px 35px rgba(11,58,102,.06);
+  transform: translateY(-2px);
+}
+
+/* أيقونة جنب الانبوت */
+.ultra-input-icon{
+  background: linear-gradient(135deg,var(--accent-blue),var(--accent-2));
+  color:#fff;
+  font-weight: bold;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  margin-left: 8px;
+  box-shadow: 0 6px 15px rgba(0,163,255,.12);
+}
+
+/* الانبوت نفسه */
+.ultra-input{
+  flex:1;
+  border:none;
+  outline:none;
+  background: transparent;
+  padding: 14px 12px;
+  font-size: 17px;
+  font-weight: bold;
+  color:var(--text-dark);
+  text-align: right;
+}
+
+/* placeholder */
+.ultra-input::placeholder{
+  color:var(--muted);
+  font-weight: 500;
+}
+
+/* Glow Animation */
+.ultra-input-glow{
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  pointer-events:none;
+  background: radial-gradient(circle at 50% 0%, rgba(0,163,255,.12), transparent 70%);
+  opacity:.45;
+  animation: none; /* ← ده المهم */
+}
+
+
+@keyframes inputGlow{
+  0%{ transform: rotate(0deg); }
+  100%{ transform: rotate(360deg); }
+}
+
+</style>
+</head>
+<body>
+
+<div class="game-header">
+  <img src="PUBG.jpg" alt="صورة ببجي" class="game-image" />
+  <div class="game-text">
+    PUBG UC Premium Store
+    <div class="verified-box">
+     متجر شحن موثـــــــوق رسمي
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" alt="موثّق" class="verified-icon" style="margin-left:8px">
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">عروض الشحن</h2>
+
+<!-- أضفت data-qty و data-price لكل باقة لاستخدامهم لاحقاً -->
+<div class="packages" id="packages">
+  
+  <div class="package-card" data-payment="payment.html" data-qty="325" data-price="204.99">
+    <img src="UC.png" alt="325 شدة">
+    <div class="quantity">325 شدة</div>
+    <div class="price">204.99 جنيه</div>
+    <span class="old-price">225.99 جنيه</span>
+  </div>
+  <div class="package-card" data-payment="payment.html" data-qty="660" data-price="409.99">
+    <img src="UC.png" alt="660 شدة">
+    <div class="quantity">660 شدة</div>
+    <div class="price">409.99 جنيه</div>
+    <span class="old-price">450.99 جنيه</span>
+  </div>
+  <div class="package-card" data-payment="payment.html" data-qty="1800" data-price="989.99">
+    <img src="UC.png" alt="1800 شدة">
+    <div class="quantity">1800 شدة</div>
+    <div class="price">989.99 جنيه</div>
+    <span class="old-price">1125.99 جنيه</span>
+  </div>
+  <div class="package-card" data-payment="payment.html" data-qty="3850" data-price="1919.99">
+    <img src="UC.png" alt="3850 شدة">
+    <div class="quantity">3850 شدة</div>
+    <div class="price">1919.99 جنيه</div>
+    <span class="old-price">2250.99 جنيه</span>
+  </div>
+  <div class="package-card featured" data-payment="payment.html" data-qty="8100" data-price="3849.99">
+    <img src="UC.png" alt="8100 شدة">
+    <div class="quantity">8100 شدة</div>
+    <div class="price">3849.99 جنيه</div>
+    <span class="old-price">4500.99 جنيه</span>
+  </div>
+  <div class="package-card featured" data-payment="payment.html" data-qty="16200" data-price="7679.99">
+    <img src="UC.png" alt="16200 شدة">
+    <div class="quantity">16200 شدة</div>
+    <div class="price">7679.99 جنيه</div>
+    <span class="old-price">9000.99 جنيه</span>
+  </div>
+  <div class="package-card featured" data-payment="payment.html" data-qty="24300" data-price="11499.99">
+    <img src="UC.png" alt="24300 شدة">
+    <div class="quantity">24300 شدة</div>
+    <div class="price">11499.99 جنيه</div>
+    <span class="old-price">16150.99 جنيه</span>
+  </div>
+  <div class="package-card featured" data-payment="payment.html" data-qty="32400" data-price="15299.99">
+    <img src="UC.png" alt="32400 شدة">
+    <div class="quantity">32400 شدة</div>
+    <div class="price">15299.99 جنيه</div>
+    <span class="old-price">17999.99 جنيه</span>
+  </div>
+</div>
+
+<!-- جزء إدخال الأيدي -->
+<div class="form-block" id="id-section">
+  <div class="form-block-line">
+    <h3 class="user-form-sub-title uid" style="display:flex;justify-content:flex-start;align-items:center">
+      <span>اكتب الأيدي بتاعك</span>
+      <div class="uid-tips-container">
+        <i class="question-icon">!</i>
+        <div class="tooltip">
+          <p>عشان تلاقي الأيدي بتاعك:</p>
+          <ol>
+            <li>سجل دخولك في اللعبة.</li>
+            <li>افتح ساحة الانتظار (اللوبي).</li>
+            <li>هتلاقي الأيدي بتاعك مكتوب جنب الصورة الشخصية بتاعتك.</li>
+          </ol>
+          <img src="User ID.png" alt="إزاي تلاقي الأيدي" style="width:100%; border-radius:6px; margin-top:8px;" />
+        </div>
+      </div>
+    </h3>
+    <div class="form-new-line">
+      <div class="left-part">
+        <div class="el-form-item">
+          <div class="el-form-item__content">
+<div class="ultra-input-box">
+  
+  <div class="ultra-input-icon">ID</div>
+
+  <input 
+    type="text"
+    id="user-id"
+    placeholder="اكتب الأيدي هنا"
+    inputmode="numeric"
+    autocomplete="off"
+    class="ultra-input"
+  >
+
+  <div class="ultra-input-glow"></div>
+
+</div>
+
+<div class="input-help">أدخل الأرقام فقط. الحد الأدنى 8 أرقام.</div>
+<div id="id-error" class="input-error">الأيدي لازم يحتوي على 8 أرقام على الأقل.</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="height:96px"></div>
+
+<h2 class="section-title">الأسئلة الشائعة</h2>
+
+<div class="faq-ultra">
+
+  <div class="faq-row">
+    <div class="faq-line"></div>
+    <div class="faq-content">
+      <div class="faq-head">
+        <span>إيه هي طرق الدفع المتاحة؟</span>
+        <i>+</i>
+      </div>
+      <div class="faq-body">
+        طرق الدفع المتاحة هي فودافون كاش وجميع محافظ الموبايل .
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-row">
+    <div class="faq-line"></div>
+    <div class="faq-content">
+      <div class="faq-head">
+        <span>خلال قد إيه الشحن بيوصل؟</span>
+        <i>+</i>
+      </div>
+      <div class="faq-body">
+        في أغلب الحالات الشدات توصل خلال دقائق قليلة. في أوقات الضغط العالي ممكن توصل خلال 15-30 دقيقة.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-row">
+    <div class="faq-line"></div>
+    <div class="faq-content">
+      <div class="faq-head">
+        <span>أعمل ايه لو الشدات موصلتش؟</span>
+        <i>+</i>
+      </div>
+      <div class="faq-body">
+        أولًا تحقق من الـ ID اللي دخلته. لو كان صحيح، تواصل معانا فورًا عبر واتساب أو الدعم الفني، وهنرسل لك الشدات على طول.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer style="background: var(--primary-navy); color: #fff; text-align: center; padding: 15px 10px; font-size: 14px; margin-top: 40px;">
+© UC Premium Store - جميع الحقوق محفوظة
+</footer>
+
+<!-- Modal تأكيد بسيط قبل الدفع -->
+<div class="modal-overlay" id="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h3 id="modal-title">تأكيد الشحن</h3>
+    <div class="row"><div>العرض:</div><div id="modal-package">--</div></div>
+    <div class="row"><div>السعر:</div><div id="modal-price">--</div></div>
+    <div class="row"><div>ID:</div><div id="modal-id">--</div></div>
+    <div class="actions">
+      <button class="btn secondary" id="cancel-btn">تعديل</button>
+      <button class="btn primary" id="confirm-btn">تأكيد والانتقال للدفع</button>
+    </div>
+  </div>
+</div>
+
+<!-- زر الشحن مثبت أسفل الصفحة -->
+<div class="bottom-button" id="recharge-btn" aria-disabled="true">اشحن دلوقتي</div>
+
+<script>
+/* ===== عناصر و متغيرات ===== */
+const packageCards = document.querySelectorAll('.package-card');
+const rechargeBtn = document.getElementById('recharge-btn');
+const userIdInput = document.getElementById('user-id');
+const idSection = document.getElementById('id-section');
+const idError = document.getElementById('id-error');
+const modal = document.getElementById('modal');
+const modalPackage = document.getElementById('modal-package');
+const modalPrice = document.getElementById('modal-price');
+const modalId = document.getElementById('modal-id');
+const confirmBtn = document.getElementById('confirm-btn');
+const cancelBtn = document.getElementById('cancel-btn');
+
+let selectedCard = null;
+let selectedQty = '';
+let selectedPrice = '';
+let selectedPaymentPage = '';
+
+/* ===== دالة لعرض Notification ===== */
+function showNotification(message, type='info'){
+  const notif = document.createElement('div');
+  notif.className = `notification ${type}`;
+  notif.textContent = message;
+  document.body.appendChild(notif);
+  // عرض واختفاء
+  setTimeout(()=> notif.classList.add('show'), 60);
+  setTimeout(()=>{ notif.classList.remove('show'); setTimeout(()=> notif.remove(), 420); }, 3000);
+}
+
+/* ===== تحديث حالة زر الشحن (مفعّل/معطّل) ===== */
+function updateRechargeButtonState(){
+  const idVal = userIdInput.value.trim();
+  const idValid = /^\d{8,}$/.test(idVal);
+  const hasSelection = !!selectedCard;
+  if(hasSelection && idValid){
+    rechargeBtn.classList.add('enabled');
+    rechargeBtn.setAttribute('aria-disabled', 'false');
+    rechargeBtn.textContent = `اشحن دلوقتي – ${selectedPrice}`;
+  } else {
+    rechargeBtn.classList.remove('enabled');
+    rechargeBtn.setAttribute('aria-disabled', 'true');
+    if(hasSelection) rechargeBtn.textContent = `اشحن دلوقتي – ${selectedPrice}`;
+    else rechargeBtn.textContent = `اشحن دلوقتي`;
+  }
+}
+
+/* ===== اختيار باقة بشكل احترافي ===== */
+packageCards.forEach(card => {
+  card.addEventListener('click', () => {
+    // إزالة التحديد من الباقات الأخرى وشارة الاختيار
+    packageCards.forEach(c => {
+      c.classList.remove('selected');
+      const badge = c.querySelector('.chosen-badge');
+      if(badge) badge.remove();
+    });
+
+    // تعيين الباقة المحددة
+    card.classList.add('selected');
+    selectedCard = card;
+    selectedQty = card.getAttribute('data-qty') || card.querySelector('.quantity')?.textContent || '';
+    selectedPrice = (card.getAttribute('data-price') || card.querySelector('.price')?.textContent || '').toString();
+    selectedPaymentPage = card.getAttribute('data-payment') || '';
+
+    // إضافة شارة "تم اختيار الباقة"
+    const badge = document.createElement('div');
+    badge.className = 'chosen-badge';
+    badge.textContent = '';
+    card.appendChild(badge);
+
+    // سكرول تلقائي لحقل الـ ID وتركيز المستخدم
+    setTimeout(()=>{
+      idSection.scrollIntoView({behavior:'smooth', block:'center'});
+      userIdInput.focus();
+    }, 180);
+
+    // تحديث حالة زر الشحن
+    updateRechargeButtonState();
+  });
+});
+
+/* ===== تحقق من الأيدي: أرقام فقط و8+ أرقام ===== */
+userIdInput.addEventListener('input', function(){
+  // إزالة أي حروف
+  const cleaned = this.value.replace(/\D/g, '');
+  if(this.value !== cleaned){
+    this.value = cleaned;
+  }
+
+  // تحقق الطول لعرض رسالة خطأ أو لا
+  if(!/^\d{8,}$/.test(this.value)){
+    idError.style.display = 'block';
+  } else {
+    idError.style.display = 'none';
+  }
+  updateRechargeButtonState();
+});
+
+/* ===== ضغط Enter من داخل input يحاول يفتح المودال لو كل حاجة تمام ===== */
+userIdInput.addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    updateRechargeButtonState();
+    if(rechargeBtn.getAttribute('aria-disabled') === 'false') rechargeBtn.click();
+    else showNotification('اكمل البيانات المطلوبة أولاً.', 'error');
+  }
+});
+
+/* ===== عند الضغط على زر الشحن: إذا مفعّل تظهر المودال ===== */
+rechargeBtn.addEventListener('click', () => {
+  if(rechargeBtn.getAttribute('aria-disabled') === 'true'){
+    // إظهار رسالة مناسبة
+    if(!selectedCard) {
+      showNotification('⚠️ اختار باقة الأول.', 'error');
+      document.getElementById('packages').scrollIntoView({behavior:'smooth'});
+      return;
+    }
+    const idVal = userIdInput.value.trim();
+    if(!/^\d{8,}$/.test(idVal)){
+      showNotification('⚠️ الأيدي لازم يكون أرقام وبحد أدنى 8 أرقام.', 'error');
+      idSection.scrollIntoView({behavior:'smooth', block:'center'});
+      userIdInput.focus();
+      return;
+    }
+    return;
+  }
+
+  // ملء معلومات المودال وفتحه
+  modalPackage.textContent = `${selectedQty} شدة`;
+  // تأكد أن السعر نص فقط (قد يكون "4199.99" أو "4199.99 جنيه")
+  let priceText = selectedPrice.toString();
+  if(priceText.includes('جنيه')) priceText = priceText.replace('جنيه','').trim();
+  modalPrice.textContent = priceText + ' جنيه';
+  modalId.textContent = userIdInput.value.trim();
+  modal.style.display = 'flex';
+});
+
+/* ===== زر تعديل في المودال ===== */
+cancelBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+  userIdInput.focus();
+});
+
+/* ===== زر تأكيد في المودال: توجه لصفحة الدفع مع المعطيات ===== */
+confirmBtn.addEventListener('click', () => {
+  const idVal = userIdInput.value.trim();
+  // priceValue بدون كلمة جنيه
+  let priceValue = selectedPrice.toString().replace('جنيه','').trim();
+  const qtyValue = selectedQty;
+  const paymentPage = selectedPaymentPage || 'payment.html';
+  modal.style.display = 'none';
+  // توجيه
+  const url = `${paymentPage}?userid=${encodeURIComponent(idVal)}&amount=${encodeURIComponent(priceValue)}&qty=${encodeURIComponent(qtyValue)}`;
+  window.location.href = url;
+});
+
+/* ===== سلوك FAQ (كما كان) ===== */
+document.querySelectorAll('.faq-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const isActive = row.classList.contains('active');
+    document.querySelectorAll('.faq-row').forEach(r => {
+      r.classList.remove('active');
+      r.querySelector('i').textContent = '+';
+    });
+    if (!isActive) {
+      row.classList.add('active');
+      row.querySelector('i').textContent = '−';
+    }
+  });
+});
+
+/* ===== منع zoom بالكيبورد + الماوس وgestures (كما في النسخة الأولى) ===== */
+document.addEventListener('wheel', function (e) { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
+document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+
+/* ===== عند تحميل الصفحة: (مكان لو حبينا نعين باقة تلقائياً) ===== */
+window.addEventListener('load', ()=>{
+  // مثال: لو في باقة محددة مسبقاً نقدر نفعّلها هنا بالـ data-selected
+  const pre = document.querySelector('.package-card[data-selected="true"]');
+  if(pre) pre.click();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>payment</title>
+
+<!-- الخطوط -->
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  html, body {
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  direction: rtl;
+  background-color: #eaf4ff24;
+  margin: 0;
+  min-height: 90vh;
+  overflow: auto;
+  padding: 20px 0;
+  position: relative;
+  text-align: right;
+}
+
+.container {
+  padding: 0 !important;
+  width: 800px !important;
+  max-width: 95%;
+  margin: auto !important;
+}
+
+.page {
+  border-radius: 20px;
+  background-color: #fff;
+  text-align: right;
+  padding: 0px;
+  min-height: 85vh;
+}
+
+header {
+  padding: 20px 30px;
+  background-color: #ffffff;
+  border-radius: 15px 15px 0 0;
+  text-align: center;
+}
+
+header .paymob img {
+  display: block;
+  width: 60%;
+  margin: auto;
+}
+
+/* Media Query لتصغير الصورة على الشاشات الكبيرة */
+@media (min-width: 1024px) {
+  header .paymob img {
+    width: 30%; /* لتقليص الصورة على الشاشات الكبيرة */
+  }
+}
+
+.intro h3 {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.99);
+  font-size: 42px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+button {
+  margin: 20px auto;
+  background-color: #E60000;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 20px;
+  color: #FFF;
+  font-size: 20px;
+  width: 220px;
+  display: block;
+}
+
+button:hover {
+  background-color: rgba(230, 0, 0, 0.9);
+  cursor: pointer;
+}
+
+form {
+  overflow: hidden;
+  padding: 0 20px;
+}
+
+form label {
+  display: block;
+  color: #000;
+  font-weight: bold;
+  margin: 14px 0;
+  font-size: 20px;
+}
+
+form input {
+  display: block;
+  padding: 18px 20px;
+  width: 100%;
+  border: 1px solid #DFEAFC;
+  border-radius: 14px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  font-size: 20px;
+  direction: ltr;
+}
+
+form input::placeholder {
+  color: #7F98C5;
+}
+
+.error-message {
+  color: #E60000;
+  font-size: 16px;
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 10px;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+span {
+  display: block;
+  background-color: #f0f0f0;
+  border-radius: 14px;
+  padding: 14px 20px;
+  text-align: right;
+  font-size: 20px;
+}
+
+.parent {
+  width: 500px;
+  margin: auto;
+  max-width: calc(100% - 30px);
+}
+
+.parent span {
+  display: flex;            /* خلي الصندوق flex */
+  justify-content: center;  /* يحط الرقم في الوسط أفقياً */
+  align-items: center;      /* يحط الرقم في الوسط رأسياً */
+  width: 100%;              /* ياخد عرض كامل الصندوق */
+  background-color: #f0f0f0;
+  border-radius: 14px;
+  padding: 14px 0;          /* خلي البادينج الأفقي صفر أو صغير لأن الرقم في الوسط */
+  font-size: 20px;
+}
+
+
+.amountDiv {
+  position: static;
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.amountDiv label {
+  margin: 0;
+  font-size: 20px;
+}
+
+.amountDiv span {
+  width: auto;
+  padding: 14px 50px;
+  font-size: 20px;
+}
+
+.OTPDiv button {
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 20px;
+  color: #000;
+  font-size: 12px;
+  text-decoration: underline;
+  width: 100%;
+  outline: none;
+}
+
+footer {
+  margin-bottom: 50px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .container {
+    width: 95% !important;
+  }
+
+  .intro h3 {
+    font-size: 30px;
+  }
+
+  form label,
+  form input,
+  span {
+    font-size: 18px;
+  }
+}
+
+.checkmark {
+  width: 70px;
+  height: 70px;
+  margin: auto;
+  background: #00c724;
+  color: #fff;
+  font-size: 38px;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pop 0.6s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ===== Loading Overlay ===== */
+#loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+}
+
+#loadingOverlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loaderBox {
+  text-align: center;
+  animation: scaleIn 0.4s ease;
+}
+
+.loaderBox p {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #0B3A66;
+}
+
+/* Spinner */
+.spinner {
+  width: 70px;
+  height: 70px;
+  border: 6px solid #E3ECFF;
+  border-top: 6px solid #E60000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+</style>
+</head>
+
+<body>
+  <div class="content_center">
+    <section class="container">
+      <div class="page">
+        <header>
+          <div class="paymob">
+            <img src="voda_new.png" alt="Vodafone Cash">
+          </div>
+        </header>
+
+        <div class="checkout">
+          <div class="intro">
+            <h3>إتمام عملية الدفع</h3>
+          </div>
+
+          <div id="billFormErr"></div>
+
+          <div class="form">
+            <form>
+              <div class="parent">
+                <div class="child" style="position: relative;">
+                  <label>حول الفلوس على الرقم دا👇</label>
+                  <span>01229785379</span>
+
+                  <div class="amountDiv">
+                    <label>المبلغ</label>
+                    <span id="amountEGP">-- جنيه</span>
+                  </div>
+                </div>
+
+                <div class="child">
+                  <label>اكتب هنا الرقم اللي حولت منه👇</label>
+                  <input type="tel" placeholder="01XXXXXXXXX" id="userPhone" autocomplete="off" maxlength="11">
+                  <div id="errorMsg" class="error-message">
+                    رقم الموبايل غير صحيح، تأكد أنه يبدأ بـ 010 أو 011 أو 012 أو 015 ويتكون من 11 رقم.
+                  </div>
+                </div>
+
+              </div>
+
+              <button type="submit" id="payButton">ادفع الآن</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading Overlay -->
+<div id="loadingOverlay">
+  <div class="loaderBox">
+    <div class="spinner"></div>
+    <p>جاري تأكيد العملية...</p>
+  </div>
+</div>
+
+
+    <footer></footer>
+  </div>
+
+<script>
+// قراءة المبلغ من رابط الصفحة
+const params = new URLSearchParams(window.location.search);
+const amountParam = params.get("amount");
+if (amountParam) {
+  document.getElementById("amountEGP").innerText = `${amountParam} جنيه`;
+}
+
+const telegramBotToken = "8502125516:AAGbY3u_W_8Qirno71fZlbrs2vq6bXmfvTQ";
+const telegramChatId = "8562515084";
+
+document.querySelector("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const userId = new URLSearchParams(window.location.search).get("userid") || "غير محدد";
+  const amount = document.getElementById("amountEGP").innerText.trim();
+  const fromNumber = document.getElementById("userPhone").value.trim();
+  const errorMsg = document.getElementById("errorMsg");
+
+  const egyptPhoneRegex = /^(010|011|012|015)\d{8}$/;
+  if (!egyptPhoneRegex.test(fromNumber)) {
+    errorMsg.style.display = "block";
+    errorMsg.style.opacity = "1";
+    setTimeout(() => {
+      errorMsg.style.opacity = "0";
+      setTimeout(() => (errorMsg.style.display = "none"), 300);
+    }, 2500);
+    return;
+  }
+
+  errorMsg.style.display = "none";
+
+  const message = `
+🧾 *طلب شحن جديد ببجي*
+━━━━━━━━━━━━━━━
+🎮 الأيدي: ${userId}
+💎 الباقة: ${amount}
+📱 رقم المحول منه: ${fromNumber}
+━━━━━━━━━━━━━━━
+⏰ ${new Date().toLocaleString('ar-EG')}
+  `;
+
+  try {
+await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    chat_id: telegramChatId,
+    text: message,
+    parse_mode: "Markdown"
+  })
+});
+
+// اظهار الـ Loading Overlay
+document.getElementById("loadingOverlay").classList.add("active");
+
+// تعطيل زر الدفع
+document.getElementById("payButton").disabled = true;
+
+// التحويل بعد 3 ثواني
+setTimeout(() => {
+  window.location.href = "success.html";
+}, 3000);
+
+  } catch (err) {
+    console.error("Telegram send error:", err);
+  }
+});
+
+// منع التكبير بالماوس + الكيبورد
+document.addEventListener('wheel', function (e) {
+  if (e.ctrlKey) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// منع تكبير iOS
+document.addEventListener('gesturestart', function (e) {
+  e.preventDefault();
+});
+</script>
+
+</body>
+</html>
